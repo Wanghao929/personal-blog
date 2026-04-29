@@ -26,7 +26,10 @@ export default function Home() {
 
   const fetchBlogs = async () => {
     try {
-      const res = await fetch('/api/blogs');
+      const token = localStorage.getItem('token');
+      const res = await fetch('/api/blogs', {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       const data = await res.json();
       if (data.success) {
         setBlogs(data.data);

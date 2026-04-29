@@ -26,7 +26,7 @@ export default async function handler(
   }
 
   const isValid = await bcrypt.compare(password, user.password);
-  if (isValid) {
+  if (!isValid) {
     return res.status(401).json({ success: false, message: '密码错误' });
   }
 

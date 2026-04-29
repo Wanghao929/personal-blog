@@ -6,9 +6,11 @@ export const getUsers = async (): Promise<User[]> => {
   return rows as User[];
 };
 
-export const getBlogs = async (): Promise<Blog[]> => {
+
+export const getBlogsByAuthor = async (author: string): Promise<Blog[]> => {
   const [rows] = await pool.execute(
-    'SELECT id, title, content, author, createdAt FROM blogs ORDER BY createdAt DESC'
+    'SELECT id, title, content, author, createdAt FROM blogs WHERE author = ? ORDER BY createdAt DESC',
+    [author]
   );
   return rows as Blog[];
 };
@@ -28,6 +30,15 @@ export const addBlog = async (blog: Blog): Promise<Blog> => {
 export const deleteBlog = async (id: string): Promise<boolean> => {
   const [result] = await pool.execute('DELETE FROM blogs WHERE id = ?', [id]);
   return (result as any).affectedRows > 0;
+};
+
+export const addUser = async (username: string, password: string): Promise<User> => {
+  const id = Date.now().toString();
+  await pool.execute(
+    'INSERT INTO users (id, username, password) VALUES (?, ?, ?)',
+    [id, username, password]
+  );
+  return { id, username, password };
 };
 
 export const findUserByUsername = async (username: string): Promise<User | undefined> => {

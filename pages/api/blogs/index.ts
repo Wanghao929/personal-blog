@@ -1,13 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getBlogs, addBlog } from '@/data/store';
+import jwt from 'jsonwebtoken';
+import { getBlogsByAuthor, addBlog } from '@/data/store';
 import { ApiResponse, Blog } from '@/types';
+
+const JWT_SECRET = 'your-secret-key-change-in-production';
+
+function getUserFromToken(req: NextApiRequest): { id: string; username: string } | null {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) return null;
+
+  try {
+    return jwt.verify(authHeader.slice(7), JWT_SECRET) as { id: string; username: string };
+  } catch {
+    return null;
+  }
+}
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<Blog[]>>
 ) {
   if (req.method === 'GET') {
-    const blogs = await getBlogs();
+    const user = getUserFromToken(req);
+    if (!user) {
+      return res.status(200).json({ success: true, data: [] });
+    }
+    const blogs = await getBlogsByAuthor(user.username);
     return res.status(200).json({ success: true, data: blogs });
   }
 
