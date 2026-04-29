@@ -2,12 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getBlogs, addBlog } from '@/data/store';
 import { ApiResponse, Blog } from '@/types';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<Blog[]>>
 ) {
   if (req.method === 'GET') {
-    const blogs = getBlogs();
+    const blogs = await getBlogs();
     return res.status(200).json({ success: true, data: blogs });
   }
 
@@ -25,8 +25,7 @@ export default function handler(
       author: author || '匿名',
       createdAt: new Date().toISOString()
     };
-
-    addBlog(newBlog);
+    await addBlog(newBlog);
     return res.status(201).json({ success: true, data: [newBlog] });
   }
 

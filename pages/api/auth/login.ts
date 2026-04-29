@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { findUserByUsername, getUsers } from '@/data/store';
+import { findUserByUsername } from '@/data/store';
 import { ApiResponse } from '@/types';
 
 const JWT_SECRET = 'your-secret-key-change-in-production';
@@ -20,7 +20,7 @@ export default async function handler(
     return res.status(400).json({ success: false, message: '用户名和密码不能为空' });
   }
 
-  const user = findUserByUsername(username);
+  const user = await findUserByUsername(username);
   if (!user) {
     return res.status(401).json({ success: false, message: '用户不存在' });
   }

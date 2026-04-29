@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { deleteBlog } from '@/data/store';
 import { ApiResponse } from '@/types';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse>
 ) {
@@ -16,7 +16,7 @@ export default function handler(
     return res.status(400).json({ success: false, message: '博客ID不能为空' });
   }
 
-  const success = deleteBlog(id);
+  const success = await deleteBlog(id);
 
   if (!success) {
     return res.status(404).json({ success: false, message: '博客不存在' });

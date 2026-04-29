@@ -1,36 +1,40 @@
+import pool from '@/lib/db';
 import { Blog, User } from '@/types';
 
-const users: User[] = [
-  { id: '1', username: 'admin', password: '$2a$10$8K1p/a0dL1LXMIgoEDFrgOBkP8f0yCkpIzrF6Io7rD0kHsLcVF8S2' }
-];
+export const getUsers = async (): Promise<User[]> => {
+  const [rows] = await pool.execute('SELECT id, username, password FROM users');
+  return rows as User[];
+};
 
-const blogs: Blog[] = [
-  {
-    id: '1',
-    title: '欢迎来到我的博客',
-    content: '这是我的第一篇博客文章，欢迎大家来访！',
-    author: 'admin',
-    createdAt: new Date().toISOString()
-  }
-];
+export const getBlogs = async (): Promise<Blog[]> => {
+  const [rows] = await pool.execute(
+    'SELECT id, title, content, author, createdAt FROM blogs ORDER BY createdAt DESC'
+  );
+  return rows as Blog[];
+};
 
-export const getUsers = () => users;
-export const getBlogs = () => blogs;
+function toMySQLDatetime(isoStr: string): string {
+  return new Date(isoStr).toISOString().slice(0, 19).replace('T', ' ');
+}
 
-export const addBlog = (blog: Blog) => {
-  blogs.unshift(blog);
+export const addBlog = async (blog: Blog): Promise<Blog> => {
+  await pool.execute(
+    'INSERT INTO blogs (id, title, content, author, createdAt) VALUES (?, ?, ?, ?, ?)',
+    [blog.id, blog.title, blog.content, blog.author, toMySQLDatetime(blog.createdAt)]
+  );
   return blog;
 };
 
-export const deleteBlog = (id: string) => {
-  const index = blogs.findIndex(b => b.id === id);
-  if (index !== -1) {
-    blogs.splice(index, 1);
-    return true;
-  }
-  return false;
+export const deleteBlog = async (id: string): Promise<boolean> => {
+  const [result] = await pool.execute('DELETE FROM blogs WHERE id = ?', [id]);
+  return (result as any).affectedRows > 0;
 };
 
-export const findUserByUsername = (username: string) => {
-  return users.find(u => u.username === username);
+export const findUserByUsername = async (username: string): Promise<User | undefined> => {
+  const [rows] = await pool.execute(
+    'SELECT id, username, password FROM users WHERE username = ?',
+    [username]
+  );
+  const users = rows as User[];
+  return users[0];
 };
