@@ -1,16 +1,17 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Tesseract from 'tesseract.js';
+import { AuthGuard } from '../hooks/AuthGuard';
 
 interface OcrResult {
   text: string;
   pages: number;
 }
 
-export default function OcrPage() {
+function OcrContent() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [ocrResult, setOcrResult] = useState<OcrResult | null>(null);
@@ -23,6 +24,13 @@ export default function OcrPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  // 释放 Object URL 防止内存泄漏
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
   const handleFile = useCallback((f: File) => {
     if (f.type !== 'application/pdf') {
       setError('请上传 PDF 文件');
@@ -32,8 +40,11 @@ export default function OcrPage() {
     setError('');
     setOcrResult(null);
     setProgress(0);
-    const url = URL.createObjectURL(f);
-    setPreviewUrl(url);
+    const newUrl = URL.createObjectURL(f);
+    setPreviewUrl(prev => {
+      if (prev) URL.revokeObjectURL(prev);
+      return newUrl;
+    });
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
@@ -52,12 +63,12 @@ export default function OcrPage() {
   const handleTextMode = async (base64: string) => {
     setProgressLabel('正在提取文字...');
     setProgress(30);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')!;
     const res = await fetch('/api/ocr', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {})
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({ file: base64 })
     });
@@ -150,7 +161,10 @@ export default function OcrPage() {
 
   const handleReset = () => {
     setFile(null);
-    setPreviewUrl(null);
+    setPreviewUrl(prev => {
+      if (prev) URL.revokeObjectURL(prev);
+      return null;
+    });
     setOcrResult(null);
     setError('');
     setProgress(0);
@@ -212,11 +226,10 @@ export default function OcrPage() {
                 <div className="mb-4 flex gap-2">
                   <button
                     onClick={() => setMode('text')}
-                    className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 ${
-                      mode === 'text'
+                    className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 ${mode === 'text'
                         ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/50'
                         : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
-                    }`}
+                      }`}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -225,11 +238,10 @@ export default function OcrPage() {
                   </button>
                   <button
                     onClick={() => setMode('scan')}
-                    className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 ${
-                      mode === 'scan'
+                    className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 ${mode === 'scan'
                         ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50'
                         : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
-                    }`}
+                      }`}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -251,11 +263,10 @@ export default function OcrPage() {
                   onDragLeave={() => setDragOver(false)}
                   onDrop={handleDrop}
                   onClick={() => inputRef.current?.click()}
-                  className={`relative border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-all duration-300 ${
-                    dragOver
+                  className={`relative border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-all duration-300 ${dragOver
                       ? 'border-indigo-400 bg-indigo-500/10'
                       : 'border-white/20 hover:border-indigo-400/50 hover:bg-white/5'
-                  }`}
+                    }`}
                 >
                   <input
                     ref={inputRef}
@@ -425,5 +436,13 @@ export default function OcrPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function OcrPage() {
+  return (
+    <AuthGuard>
+      <OcrContent />
+    </AuthGuard>
   );
 }

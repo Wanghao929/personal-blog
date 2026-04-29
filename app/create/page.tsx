@@ -1,22 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { AuthGuard } from '../hooks/AuthGuard';
 
-export default function CreateBlog() {
+function CreateBlogContent() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-    }
-  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -203,5 +197,13 @@ export default function CreateBlog() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function CreateBlog() {
+  return (
+    <AuthGuard>
+      <CreateBlogContent />
+    </AuthGuard>
   );
 }
