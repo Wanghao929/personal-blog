@@ -31,9 +31,9 @@ export default function Login() {
       if (data.success) {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
-        
+
         setShowSuccess(true);
-        
+
         const newParticles = Array.from({ length: 20 }, (_, i) => ({
           id: i,
           color: ['#667eea', '#764ba2', '#f093fb', '#4fd1c5', '#f6ad55'][Math.floor(Math.random() * 5)],
@@ -41,7 +41,7 @@ export default function Login() {
           ty: (Math.random() - 0.5) * 400
         }));
         setParticles(newParticles);
-        
+
         setTimeout(() => {
           router.push('/');
         }, 2000);
@@ -70,7 +70,7 @@ export default function Login() {
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_80%_20%,rgba(118,75,162,0.3)_0%,transparent_50%)] animate-pulse" style={{ animationDelay: '1s' }} />
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_40%_40%,rgba(236,72,153,0.15)_0%,transparent_40%)] animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
-      
+
       {/* 网格纹理 */}
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1px)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1px)_1px,transparent_1px)', backgroundSize: '50px 50px' }} />
 
@@ -95,7 +95,7 @@ export default function Login() {
         <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden">
           {/* 顶部渐变条 */}
           <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-shimmer bg-[length:200%_100%]" />
-          
+
           <div className="p-8">
             <h2 className="text-2xl font-bold text-center bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent mb-8">
               登录博客
@@ -164,7 +164,7 @@ export default function Login() {
         </div>
       </div>
 
-      {/* 成功弹窗 */}
+      {/* 成功弹窗*** */}
       {showSuccess && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 animate-fade-in">
           {/* 粒子效果 */}
@@ -183,7 +183,7 @@ export default function Login() {
               />
             ))}
           </div>
-          
+
           <div className="text-center animate-bounce-in">
             <div className="w-24 h-24 mx-auto mb-5 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/50 animate-pulse">
               <svg className="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
