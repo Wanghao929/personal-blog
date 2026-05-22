@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -82,6 +84,12 @@ export default function Home() {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  // 提取博客中的第一张图片
+  const extractFirstImage = (content: string): string | null => {
+    const imgMatch = content.match(/!\[.*?\]\((.*?)\)/);
+    return imgMatch ? imgMatch[1] : null;
   };
 
   if (loading) {
@@ -192,46 +200,75 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogs.map((blog, index) => (
-              <div 
-                key={blog.id} 
-                className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1 group animate-fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-indigo-300 transition-colors line-clamp-2">
-                    {blog.title}
-                  </h3>
-                  <p className="text-white/60 mb-4 line-clamp-3 leading-relaxed">
-                    {blog.content}
-                  </p>
+            {blogs.map((blog, index) => {
+              const firstImage = extractFirstImage(blog.content);
+              return (
+                <div 
+                  key={blog.id} 
+                  className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1 group animate-fade-in"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {/* 封面图片 */}
+                  {firstImage && (
+                    <div className="relative h-48 overflow-hidden">
+                      <img 
+                        src={firstImage}
+                        alt={blog.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    </div>
+                  )}
                   
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500/30 to-purple-600/30 flex items-center justify-center">
-                        <span className="text-sm">👤</span>
-                      </div>
-                      <div>
-                        <p className="text-white/90 text-sm font-medium">{blog.author}</p>
-                        <p className="text-white/40 text-xs">{formatDate(blog.createdAt)}</p>
-                      </div>
+                  <div className={`p-6 ${firstImage ? '' : 'pt-6'}`}>
+                    <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-indigo-300 transition-colors line-clamp-2">
+                      {blog.title}
+                    </h3>
+                    <div className="text-white/60 mb-4 line-clamp-3 leading-relaxed prose prose-invert prose-sm max-w-none
+                      prose-headings:text-white prose-a:text-indigo-400
+                      prose-strong:text-white prose-li:text-white/80
+                      prose-ol:text-white/80 prose-ul:text-white/80
+                      prose-img:hidden">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {blog.content}
+                      </ReactMarkdown>
                     </div>
                     
-                    {isLoggedIn && username === blog.author && (
-                      <button
-                        onClick={() => handleDeleteClick(blog.id, blog.title)}
-                        className="px-3 py-1.5 bg-red-500/20 text-red-400 text-sm font-medium rounded-lg hover:bg-red-500/30 transition-all duration-300 border border-red-500/30"
-                      >
-                        删除
-                      </button>
-                    )}
+                    <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500/30 to-purple-600/30 flex items-center justify-center">
+                          <span className="text-sm">👤</span>
+                        </div>
+                        <div>
+                          <p className="text-white/90 text-sm font-medium">{blog.author}</p>
+                          <p className="text-white/40 text-xs">{formatDate(blog.createdAt)}</p>
+                        </div>
+                      </div>
+                      
+                      {isLoggedIn && username === blog.author && (
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => router.push(`/edit/${blog.id}`)}
+                            className="px-3 py-1.5 bg-amber-500/20 text-amber-400 text-sm font-medium rounded-lg hover:bg-amber-500/30 transition-all duration-300 border border-amber-500/30"
+                          >
+                            编辑
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(blog.id, blog.title)}
+                            className="px-3 py-1.5 bg-red-500/20 text-red-400 text-sm font-medium rounded-lg hover:bg-red-500/30 transition-all duration-300 border border-red-500/30"
+                          >
+                            删除
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                  
+                  {/* 卡片顶部渐变装饰 */}
+                  <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
-                
-                {/* 卡片顶部渐变装饰 */}
-                <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </main>

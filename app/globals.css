@@ -56,3 +56,17 @@ body {
   min-height: 100vh;
   padding: 20px;
 }
+
+
+.bouncing-bars { display:flex; align-items:flex-end; gap:4px; height:48px; }
+.bouncing-bars span { width:6px; background:#6c63ff; border-radius:3px;
+  animation: bounce-bar .8s ease-in-out infinite alternate; }
+.bouncing-bars span:nth-child(1) { animation-delay: 0s;   height:20px; }
+.bouncing-bars span:nth-child(2) { animation-delay: .1s;  height:28px; }
+.bouncing-bars span:nth-child(3) { animation-delay: .2s;  height:36px; }
+.bouncing-bars span:nth-child(4) { animation-delay: .3s;  height:28px; }
+.bouncing-bars span:nth-child(5) { animation-delay: .4s;  height:20px; }
+@keyframes bounce-bar {
+  0% { transform: scaleY(.4); }
+  100% { transform: scaleY(1.4); }
+}

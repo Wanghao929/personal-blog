@@ -32,6 +32,31 @@ export const deleteBlog = async (id: string): Promise<boolean> => {
   return (result as any).affectedRows > 0;
 };
 
+export const getBlogById = async (id: string): Promise<Blog | null> => {
+  const [rows] = await pool.execute(
+    'SELECT id, title, content, author, createdAt FROM blogs WHERE id = ?',
+    [id]
+  );
+  const blogs = rows as Blog[];
+  return blogs.length > 0 ? blogs[0] : null;
+};
+
+export const updateBlog = async (id: string, title: string, content: string): Promise<boolean> => {
+  const [result] = await pool.execute(
+    'UPDATE blogs SET title = ?, content = ? WHERE id = ?',
+    [title, content, id]
+  );
+  return (result as any).affectedRows > 0;
+};
+
+export const getLatestImage = async (): Promise<{ filename: string; mimetype: string; data: string } | null> => {
+  const [rows] = await pool.execute(
+    'SELECT filename, mimetype, data FROM images ORDER BY id DESC LIMIT 1'
+  );
+  const images = rows as any[];
+  return images.length > 0 ? images[0] : null;
+};
+
 export const addUser = async (username: string, password: string): Promise<User> => {
   const id = Date.now().toString();
   await pool.execute(

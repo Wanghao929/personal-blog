@@ -1,11 +1,22 @@
 import mysql from 'mysql2/promise';
 
+
+//执行数据库初始化：
+//  npm run init-db
+
+
+// Railway MySQL 环境变量
+const host = process.env.MYSQLHOST || process.env.DB_HOST || 'localhost';
+const port = Number(process.env.MYSQLPORT || process.env.DB_PORT) || 3306;
+const user = process.env.MYSQLUSER || process.env.DB_USER || 'root';
+const password = process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'root';
+
 async function initDatabase() {
   const connection = await mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    port: Number(process.env.DB_PORT) || 3306,
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'root',
+    host,
+    port,
+    user,
+    password,
   });
 
   try {
@@ -31,8 +42,26 @@ async function initDatabase() {
       CREATE TABLE IF NOT EXISTS blogs (
         id VARCHAR(36) PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
-        content TEXT NOT NULL,
+        content LONGTEXT NOT NULL,
         author VARCHAR(50) NOT NULL,
+        createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
+      )
+    `);
+
+    // 兼容旧表：将 content 从 TEXT 升级为 LONGTEXT（支持 base64 图片）
+    await connection.execute(`
+      ALTER TABLE blogs MODIFY content LONGTEXT NOT NULL
+    `).catch(() => {
+      // 如果已经是 LONGTEXT 则忽略错误
+    });
+
+    // 创建 images 表
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS images (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        filename VARCHAR(255) NOT NULL,
+        mimetype VARCHAR(100) NOT NULL,
+        data LONGTEXT NOT NULL,
         createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
       )
     `);
@@ -65,3 +94,5 @@ initDatabase()
     console.error('数据库初始化失败:', err);
     process.exit(1);
   });
+
+

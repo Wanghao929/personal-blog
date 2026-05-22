@@ -5,12 +5,15 @@
 ## 功能特性
 
 - ✅ 用户注册 / 登录
-- ✅ 发表博客
-- ✅ 查看博客列表（登录后仅显示当前用户的博客）
+- ✅ 发表博客（Markdown 编辑 + 图片上传）
+- ✅ 编辑博客（Markdown 编辑 + 图片上传）
+- ✅ Markdown 编辑器（编辑 / 分栏 / 预览三种模式）
+- ✅ 图片上传与缩略图预览
+- ✅ 查看博客列表（登录后仅显示当前用户的博客，含封面图）
 - ✅ 删除博客
 - ✅ PDF 文字识别（文字型 PDF 提取 + 扫描件 OCR 识别）
 - ✅ AI 助手（通义千问流式对话、Markdown 渲染、复制/停止功能）
-- ✅ 登录状态保护（未登录无法访问创建/OCR/AI 页面）
+- ✅ 登录状态保护（未登录无法访问创建/编辑/OCR/AI 页面）
 - ✅ API 接口 JWT 认证保护
 
 ## 技术栈
@@ -73,29 +76,34 @@ npm run dev
 │   │   └── AuthGuard.tsx    # 登录状态守卫组件
 │   ├── login/               # 登录页面
 │   ├── register/            # 注册页面
-│   ├── create/              # 创建博客页面
+│   ├── create/              # 创建博客页面（Markdown 编辑 + 图片上传）
+│   ├── edit/
+│   │   └── [id]/page.tsx    # 编辑博客页面（Markdown 编辑 + 图片上传）
 │   ├── ocr/                 # PDF OCR 识别页面
 │   ├── ai/                  # AI 助手页面（通义千问流式对话）
 │   ├── globals.css          # 全局样式
 │   ├── layout.tsx           # 布局组件
-│   └── page.tsx             # 首页
+│   └── page.tsx             # 首页（博客列表 + 封面图）
 ├── pages/
 │   └── api/
 │       ├── auth/
 │       │   ├── login.ts     # 登录 API
 │       │   └── register.ts  # 注册 API
 │       ├── blogs/
-│       │   ├── index.ts     # 博客列表/创建 API
-│       │   └── [id].ts      # 博客详情/删除 API
+│       │   ├── index.ts     # 博客列表/创建 API（含图片 base64 转换）
+│       │   └── [id].ts      # 博客详情/编辑/删除 API（含权限校验）
 │       ├── ocr/
 │       │   └── index.ts     # OCR 识别 API
-│       └── ai/
-│           └── chat.ts      # AI 对话 API（流式转发通义千问）
+│       ├── ai/
+│       │   └── chat.ts      # AI 对话 API（流式转发通义千问）
+│       └── upload/
+│           ├── index.ts     # 图片上传 API（JWT 认证、格式/大小校验）
+│           └── image.ts     # 图片获取 API（按 ID 查询）
 ├── data/
 │   └── store.ts             # 数据访问层 (MySQL)
 ├── lib/
 │   ├── db.ts                # MySQL 连接池配置
-│   └── init-db.ts           # 数据库初始化脚本
+│   └── init-db.ts           # 数据库初始化脚本（users/blogs/images 表）
 ├── types/
 │   └── index.ts             # 类型定义
 ├── public/
@@ -113,3 +121,6 @@ npm run dev
 - `.env.local` 不会提交到 Git，需手动配置
 - OCR API 已做安全加固：JWT 认证、base64 格式校验、buffer 大小限制、60s 超时保护
 - AI 对话需配置 `QWEN_API_KEY`（通义千问 DashScope API Key），JWT 认证保护
+- 图片上传限制：支持 JPG/PNG/GIF/WebP，最大 5MB；以 base64 格式存入 images 表的 LONGTEXT 字段
+- 博客内容以 base64 Data URL 嵌入图片，content 字段使用 LONGTEXT 类型以支持大文本
+- 编辑博客需校验 JWT 身份及作者权限，仅作者本人可编辑
