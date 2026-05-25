@@ -115,20 +115,20 @@ function EditBlogContent({ params }: { params: { id: string } }) {
 
   if (fetching) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 light:from-slate-50 light:via-indigo-50 light:to-white">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
-          <p className="text-white/70">加载中...</p>
+          <p className="text-white/70 light:text-slate-600">加载中...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 light:from-slate-50 light:via-indigo-50 light:to-white">
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-indigo-500/10 light:bg-indigo-100 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-purple-500/10 light:bg-purple-100 rounded-full blur-3xl" />
       </div>
 
       <header className="relative z-10 max-w-3xl mx-auto px-6 py-6">
@@ -136,25 +136,25 @@ function EditBlogContent({ params }: { params: { id: string } }) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.push('/')}
-              className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-300 border border-white/10"
+              className="w-10 h-10 rounded-xl bg-white/10 light:bg-slate-200/80 hover:bg-white/20 light:hover:bg-slate-300/60 flex items-center justify-center transition-all duration-300 border border-white/10 light:border-slate-300"
             >
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-white light:text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h1 className="text-2xl font-bold text-white">✏️ 编辑博客</h1>
+            <h1 className="text-2xl font-bold text-white light:text-slate-800">✏️ 编辑博客</h1>
           </div>
         </div>
       </header>
 
       <main className="relative z-10 max-w-3xl mx-auto px-6 pb-12">
-        <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden animate-fade-in">
+        <div className="bg-white/5 light:bg-white light:shadow-md light:border-slate-200 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden animate-fade-in">
           <div className="h-1 bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500" />
 
           <div className="p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-3">
+                <label className="block text-sm font-medium text-white/80 light:text-slate-700 mb-3">
                   <span className="flex items-center gap-2">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
@@ -168,13 +168,13 @@ function EditBlogContent({ params }: { params: { id: string } }) {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="给博客起个吸引人的标题..."
                   required
-                  className="w-full px-5 py-4 bg-white/5 border-2 border-white/10 rounded-xl text-white placeholder-white/40 focus:border-amber-500 focus:bg-white/10 outline-none transition-all duration-300 text-lg"
+                  className="w-full px-5 py-4 bg-white/5 light:bg-slate-100 border-2 border-white/10 light:border-slate-300 rounded-xl text-white light:text-slate-800 placeholder-white/40 light:placeholder-slate-400 focus:border-amber-500 focus:bg-white/10 light:focus:bg-white outline-none transition-all duration-300 text-lg"
                 />
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <label className="block text-sm font-medium text-white/80">
+                  <label className="block text-sm font-medium text-white/80 light:text-slate-700">
                     <span className="flex items-center gap-2">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -182,13 +182,13 @@ function EditBlogContent({ params }: { params: { id: string } }) {
                       博客内容 (Markdown)
                     </span>
                   </label>
-                  <div className="flex bg-white/5 rounded-lg p-1 border border-white/10">
+                  <div className="flex bg-white/5 light:bg-slate-200/80 rounded-lg p-1 border border-white/10 light:border-slate-300">
                     {(['edit', 'split', 'preview'] as const).map((m) => (
                       <button
                         key={m}
                         onClick={() => setMode(m)}
                         className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-                          mode === m ? 'bg-amber-500 text-white' : 'text-white/60 hover:text-white'
+                          mode === m ? 'bg-amber-500 text-white' : 'text-white/60 light:text-slate-500 hover:text-white light:hover:text-slate-800'
                         }`}
                       >
                         {m === 'edit' ? '编辑' : m === 'split' ? '分栏' : '预览'}
@@ -212,7 +212,7 @@ function EditBlogContent({ params }: { params: { id: string } }) {
                           type="button"
                           onClick={() => fileInputRef.current?.click()}
                           disabled={uploading}
-                          className="px-3 py-1.5 bg-amber-500/20 text-amber-300 text-xs font-medium rounded-lg hover:bg-amber-500/30 transition-all flex items-center gap-1.5 disabled:opacity-50"
+                          className="px-3 py-1.5 bg-amber-500/20 light:bg-amber-100 text-amber-300 light:text-amber-700 text-xs font-medium rounded-lg hover:bg-amber-500/30 light:hover:bg-amber-200 transition-all flex items-center gap-1.5 disabled:opacity-50"
                         >
                           {uploading ? (
                             <>
@@ -228,7 +228,7 @@ function EditBlogContent({ params }: { params: { id: string } }) {
                             </>
                           )}
                         </button>
-                        <span className="text-xs text-white/30">支持 JPG/PNG/GIF/WebP，最大 5MB</span>
+                        <span className="text-xs text-white/30 light:text-slate-400">支持 JPG/PNG/GIF/WebP，最大 5MB</span>
                       </div>
                       {/* 上传后缩略图预览 */}
                       {lastUploadedUrl && (
@@ -255,28 +255,28 @@ function EditBlogContent({ params }: { params: { id: string } }) {
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="在这里使用 Markdown 书写..."
                         required
-                        className="flex-1 w-full px-5 py-4 bg-white/5 border-2 border-white/10 rounded-xl text-white placeholder-white/40 focus:border-amber-500 focus:bg-white/10 outline-none transition-all duration-300 resize-none leading-relaxed font-mono text-sm"
+                        className="flex-1 w-full px-5 py-4 bg-white/5 light:bg-slate-100 border-2 border-white/10 light:border-slate-300 rounded-xl text-white light:text-slate-800 placeholder-white/40 light:placeholder-slate-400 focus:border-amber-500 focus:bg-white/10 light:focus:bg-white outline-none transition-all duration-300 resize-none leading-relaxed font-mono text-sm"
                       />
                     </div>
                   )}
 
                   {(mode === 'preview' || mode === 'split') && (
-                    <div className={`${mode === 'split' ? 'w-1/2' : 'w-full'} bg-white/5 border-2 border-white/10 rounded-xl overflow-auto`}>
+                    <div className={`${mode === 'split' ? 'w-1/2' : 'w-full'} bg-white/5 light:bg-slate-100 border-2 border-white/10 light:border-slate-300 rounded-xl overflow-auto`}>
                       {content ? (
-                        <div className="p-5 text-sm leading-relaxed prose prose-invert prose-sm max-w-none
-                          prose-pre:bg-black/30 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-lg
-                          prose-code:text-emerald-300 prose-code:before:content-none prose-code:after:content-none
-                          prose-headings:text-white prose-a:text-amber-400
-                          prose-strong:text-white prose-li:text-white/80
-                          prose-ol:text-white/80 prose-ul:text-white/80
-                          prose-blockquote:border-amber-500/50 prose-blockquote:text-white/70
+                        <div className="p-5 text-sm leading-relaxed prose prose-invert light:prose-slate prose-sm max-w-none
+                          prose-pre:bg-black/30 light:prose-pre:bg-slate-200 prose-pre:border prose-pre:border-white/10 light:prose-pre:border-slate-300 prose-pre:rounded-lg
+                          prose-code:text-emerald-300 light:prose-code:text-emerald-700 prose-code:before:content-none prose-code:after:content-none
+                          prose-headings:text-white light:prose-headings:text-slate-800 prose-a:text-amber-400 light:prose-a:text-amber-600
+                          prose-strong:text-white light:prose-strong:text-slate-800 prose-li:text-white/80 light:prose-li:text-slate-600
+                          prose-ol:text-white/80 light:prose-ol:text-slate-600 prose-ul:text-white/80 light:prose-ul:text-slate-600
+                          prose-blockquote:border-amber-500/50 light:prose-blockquote:border-amber-300 prose-blockquote:text-white/70 light:prose-blockquote:text-slate-600
                           prose-img:rounded-lg prose-img:shadow-lg">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {content}
                           </ReactMarkdown>
                         </div>
                       ) : (
-                        <div className="flex items-center justify-center h-full text-white/30 text-sm">
+                        <div className="flex items-center justify-center h-full text-white/30 light:text-slate-400 text-sm">
                           预览区域
                         </div>
                       )}
@@ -286,14 +286,14 @@ function EditBlogContent({ params }: { params: { id: string } }) {
               </div>
 
               <div className="flex justify-end gap-4">
-                <span className="text-sm text-white/40">{content.length} 字</span>
+                <span className="text-sm text-white/40 light:text-slate-400">{content.length} 字</span>
               </div>
 
               <div className="flex gap-4 pt-4">
                 <button
                   type="button"
                   onClick={() => router.push('/')}
-                  className="flex-1 px-6 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/10 flex items-center justify-center gap-2"
+                  className="flex-1 px-6 py-3.5 bg-white/10 light:bg-slate-100 text-white light:text-slate-700 font-medium rounded-xl hover:bg-white/20 light:hover:bg-slate-200 transition-all duration-300 border border-white/10 light:border-slate-300 flex items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

@@ -63,7 +63,7 @@ export default function Login() {
   }, [showSuccess, particles]);
 
   return (
-    <div className="min-h-[calc(100vh-40px)] relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+    <div className="min-h-[calc(100vh-40px)] relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 light:from-slate-50 light:via-indigo-50 light:to-white">
       {/* 动态光效 */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_20%_80%,rgba(99,102,241,0.3)_0%,transparent_50%)] animate-pulse" />

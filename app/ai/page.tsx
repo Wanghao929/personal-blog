@@ -174,11 +174,11 @@ function AiContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 light:from-slate-50 light:via-indigo-50 light:to-white flex flex-col">
       {/* 背景装饰 */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 light:bg-indigo-100 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 light:bg-purple-100 rounded-full blur-3xl" />
       </div>
 
       {/* 头部 */}
@@ -187,16 +187,16 @@ function AiContent() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.push('/')}
-              className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-300 border border-white/10"
+              className="w-10 h-10 rounded-xl bg-white/10 light:bg-slate-200/80 hover:bg-white/20 light:hover:bg-slate-300/60 flex items-center justify-center transition-all duration-300 border border-white/10 light:border-slate-300"
             >
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-white light:text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
               <span className="text-xl">🤖</span>
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 light:from-emerald-600 light:to-teal-700 bg-clip-text text-transparent">
               AI 助手
             </h1>
           </div>
@@ -204,14 +204,14 @@ function AiContent() {
             {messages.length > 0 && (
               <button
                 onClick={handleClear}
-                className="px-4 py-2 bg-white/10 text-white/70 text-sm font-medium rounded-lg hover:bg-white/20 transition-all duration-300 border border-white/10"
+                className="px-4 py-2 bg-white/10 light:bg-slate-100 text-white/70 light:text-slate-600 text-sm font-medium rounded-lg hover:bg-white/20 light:hover:bg-slate-200 transition-all duration-300 border border-white/10 light:border-slate-300"
               >
                 清空对话
               </button>
             )}
             <Link
               href="/"
-              className="px-4 py-2 bg-white/10 text-white font-medium rounded-lg hover:bg-white/20 transition-all duration-300 border border-white/20 text-sm"
+              className="px-4 py-2 bg-white/10 light:bg-slate-200/80 text-white light:text-slate-700 font-medium rounded-lg hover:bg-white/20 light:hover:bg-slate-300/60 transition-all duration-300 border border-white/20 light:border-slate-300 text-sm"
             >
               返回首页
             </Link>
@@ -223,11 +223,11 @@ function AiContent() {
       <main className="relative z-10 max-w-4xl w-full mx-auto px-6 flex-1 overflow-y-auto pb-4">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full min-h-[60vh]">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center mb-6 border border-emerald-500/20">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 light:from-emerald-100 light:to-teal-100 flex items-center justify-center mb-6 border border-emerald-500/20 light:border-emerald-300">
               <span className="text-5xl">💬</span>
             </div>
-            <h2 className="text-2xl font-semibold text-white mb-3">你好，我是 AI 助手</h2>
-            <p className="text-white/50 text-center max-w-md mb-8">
+            <h2 className="text-2xl font-semibold text-white light:text-slate-800 mb-3">你好，我是 AI 助手</h2>
+            <p className="text-white/50 light:text-slate-500 text-center max-w-md mb-8">
               基于通义千问大模型，可以帮你写作、解答问题、头脑风暴等
             </p>
             <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
@@ -240,10 +240,10 @@ function AiContent() {
                 <button
                   key={i}
                   onClick={() => sendMessage(item.text)}
-                  className="p-4 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 hover:border-emerald-500/30 transition-all duration-300 text-left group"
+                  className="p-4 bg-white/5 light:bg-white light:shadow-sm light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-50 rounded-xl border border-white/10 hover:border-emerald-500/30 light:hover:border-emerald-300 transition-all duration-300 text-left group"
                 >
                   <span className="text-xl mb-2 block">{item.icon}</span>
-                  <span className="text-white/70 text-sm group-hover:text-white/90 transition-colors">{item.text}</span>
+                  <span className="text-white/70 light:text-slate-600 text-sm group-hover:text-white/90 light:group-hover:text-slate-800 transition-colors">{item.text}</span>
                 </button>
               ))}
             </div>
@@ -259,14 +259,14 @@ function AiContent() {
                         <span className="text-xs">🤖</span>
                       </div>
                     )}
-                    <span className="text-white/40 text-xs">
+                    <span className="text-white/40 light:text-slate-400 text-xs">
                       {msg.role === 'user' ? '你' : 'AI 助手'}
                     </span>
                     {/* 复制按钮 - AI 消息且非空 */}
                     {msg.role === 'assistant' && msg.content && (
                       <button
                         onClick={() => handleCopy(msg.content, i)}
-                        className="ml-auto opacity-0 group-hover:opacity-100 hover:opacity-100 transition-opacity text-white/30 hover:text-white/70 p-1"
+                        className="ml-auto opacity-0 group-hover:opacity-100 hover:opacity-100 transition-opacity text-white/30 light:text-slate-400 hover:text-white/70 light:hover:text-slate-600 p-1"
                         title="复制"
                       >
                         {copiedIdx === i ? (
@@ -284,7 +284,7 @@ function AiContent() {
                   <div className={`px-4 py-3 rounded-2xl group ${
                     msg.role === 'user'
                       ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-br-md'
-                      : 'bg-white/10 text-white/90 border border-white/10 rounded-bl-md'
+                      : 'bg-white/10 light:bg-slate-100 text-white/90 light:text-slate-700 border border-white/10 light:border-slate-200 rounded-bl-md'
                   }`}>
                     {msg.role === 'assistant' && msg.content === '' && thinking ? (
                       <div className="flex items-center gap-3">
@@ -296,13 +296,13 @@ function AiContent() {
                         <span className="text-emerald-400/70 text-xs animate-pulse">正在思考中...</span>
                       </div>
                     ) : msg.role === 'assistant' ? (
-                      <div className="text-sm leading-relaxed break-words prose prose-invert prose-sm max-w-none
-                        prose-pre:bg-black/30 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-lg
-                        prose-code:text-emerald-300 prose-code:before:content-none prose-code:after:content-none
-                        prose-headings:text-white prose-a:text-emerald-400
-                        prose-strong:text-white prose-li:text-white/80
-                        prose-ol:text-white/80 prose-ul:text-white/80
-                        prose-blockquote:border-emerald-500/50 prose-blockquote:text-white/70">
+                      <div className="text-sm leading-relaxed break-words prose prose-invert light:prose-slate prose-sm max-w-none
+                        prose-pre:bg-black/30 light:prose-pre:bg-slate-200 prose-pre:border prose-pre:border-white/10 light:prose-pre:border-slate-300 prose-pre:rounded-lg
+                        prose-code:text-emerald-300 light:prose-code:text-emerald-700 prose-code:before:content-none prose-code:after:content-none
+                        prose-headings:text-white light:prose-headings:text-slate-800 prose-a:text-emerald-400 light:prose-a:text-emerald-600
+                        prose-strong:text-white light:prose-strong:text-slate-800 prose-li:text-white/80 light:prose-li:text-slate-600
+                        prose-ol:text-white/80 light:prose-ol:text-slate-600 prose-ul:text-white/80 light:prose-ul:text-slate-600
+                        prose-blockquote:border-emerald-500/50 light:prose-blockquote:border-emerald-300 prose-blockquote:text-white/70 light:prose-blockquote:text-slate-600">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {msg.content}
                         </ReactMarkdown>
@@ -325,25 +325,25 @@ function AiContent() {
       {/* 输入区域 */}
       <div className="relative z-10 max-w-4xl w-full mx-auto px-6 pb-6 flex-shrink-0">
         {error && (
-          <div className="mb-3 bg-red-500/10 text-red-400 px-4 py-2.5 rounded-lg text-center border border-red-500/20 text-sm flex items-center justify-center gap-3">
+          <div className="mb-3 bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-600 px-4 py-2.5 rounded-lg text-center border border-red-500/20 light:border-red-200 text-sm flex items-center justify-center gap-3">
             <span>{error}</span>
             <button
               onClick={handleRetry}
-              className="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-md text-red-300 text-xs font-medium transition-colors"
+              className="px-3 py-1 bg-red-500/20 light:bg-red-100 hover:bg-red-500/30 light:hover:bg-red-200 rounded-md text-red-300 light:text-red-600 text-xs font-medium transition-colors"
             >
               重试
             </button>
           </div>
         )}
         <div className="flex gap-3">
-          <div className="flex-1 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 focus-within:border-emerald-500/50 transition-all duration-300">
+          <div className="flex-1 bg-white/5 light:bg-slate-100 backdrop-blur-xl rounded-xl border border-white/10 light:border-slate-300 focus-within:border-emerald-500/50 transition-all duration-300">
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="输入你的问题，按 Enter 发送..."
               rows={1}
-              className="w-full px-4 py-3 bg-transparent text-white placeholder-white/40 outline-none resize-none text-sm leading-relaxed"
+              className="w-full px-4 py-3 bg-transparent text-white light:text-slate-800 placeholder-white/40 light:placeholder-slate-400 outline-none resize-none text-sm leading-relaxed"
               style={{ minHeight: '44px', maxHeight: '120px' }}
               onInput={(e) => {
                 const target = e.target as HTMLTextAreaElement;
@@ -374,7 +374,7 @@ function AiContent() {
             </button>
           )}
         </div>
-        <p className="text-white/30 text-xs mt-2 text-center">
+        <p className="text-white/30 light:text-slate-400 text-xs mt-2 text-center">
           基于通义千问大模型，回复内容仅供参考
         </p>
       </div>

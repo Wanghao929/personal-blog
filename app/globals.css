@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant light (&:where(.light, .light *));
+
 @theme {
   --animate-float: float 15s ease-in-out infinite;
   --animate-slide-up: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -57,6 +59,50 @@ body {
   padding: 20px;
 }
 
+/* ===== 主题切换按钮 ===== */
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.theme-toggle:hover {
+  transform: scale(1.1);
+  background: rgba(255,255,255,0.2);
+}
+
+.light .theme-toggle {
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.light .theme-toggle:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+/* ===== 全局 Light 主题覆盖 ===== */
+.light {
+  /* prose 在亮色下的文字颜色 */
+  --tw-prose-body: #334155;
+  --tw-prose-headings: #1e293b;
+  --tw-prose-bold: #1e293b;
+  --tw-prose-links: #4f46e5;
+  --tw-prose-code: #059669;
+  --tw-prose-quotes: #475569;
+}
 
 .bouncing-bars { display:flex; align-items:flex-end; gap:4px; height:48px; }
 .bouncing-bars span { width:6px; background:#6c63ff; border-radius:3px;

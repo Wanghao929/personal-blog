@@ -172,11 +172,11 @@ function OcrContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 light:from-slate-50 light:via-indigo-50 light:to-white">
       {/* 背景装饰 */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 light:bg-indigo-100 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 light:bg-purple-100 rounded-full blur-3xl" />
       </div>
 
       {/* 头部 */}
@@ -185,22 +185,22 @@ function OcrContent() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.push('/')}
-              className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-300 border border-white/10"
+              className="w-10 h-10 rounded-xl bg-white/10 light:bg-slate-200/80 hover:bg-white/20 light:hover:bg-slate-300/60 flex items-center justify-center transition-all duration-300 border border-white/10 light:border-slate-300"
             >
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-white light:text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
               <span className="text-xl">🔍</span>
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 light:from-indigo-600 light:to-purple-700 bg-clip-text text-transparent">
               PDF 文字识别
             </h1>
           </div>
           <Link
             href="/"
-            className="px-5 py-2.5 bg-white/10 text-white font-medium rounded-lg hover:bg-white/20 transition-all duration-300 border border-white/20"
+            className="px-5 py-2.5 bg-white/10 light:bg-slate-200/80 text-white light:text-slate-700 font-medium rounded-lg hover:bg-white/20 light:hover:bg-slate-300/60 transition-all duration-300 border border-white/20 light:border-slate-300"
           >
             返回首页
           </Link>
@@ -212,11 +212,11 @@ function OcrContent() {
           {/* 左侧：上传与预览 */}
           <div className="space-y-6">
             {/* 上传区域 */}
-            <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden animate-fade-in">
+            <div className="bg-white/5 light:bg-white light:shadow-md light:border-slate-200 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden animate-fade-in">
               <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
               <div className="p-6">
-                <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h2 className="text-lg font-semibold text-white light:text-slate-800 mb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-indigo-400 light:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                   上传 PDF 文件
@@ -227,8 +227,8 @@ function OcrContent() {
                   <button
                     onClick={() => setMode('text')}
                     className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 ${mode === 'text'
-                        ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/50'
-                        : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
+                        ? 'bg-indigo-500/20 light:bg-indigo-100 text-indigo-300 light:text-indigo-700 border border-indigo-500/50 light:border-indigo-300'
+                        : 'bg-white/5 light:bg-slate-100 text-white/50 light:text-slate-500 border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200'
                       }`}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -239,8 +239,8 @@ function OcrContent() {
                   <button
                     onClick={() => setMode('scan')}
                     className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 ${mode === 'scan'
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50'
-                        : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
+                        ? 'bg-cyan-500/20 light:bg-cyan-100 text-cyan-300 light:text-cyan-700 border border-cyan-500/50 light:border-cyan-300'
+                        : 'bg-white/5 light:bg-slate-100 text-white/50 light:text-slate-500 border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200'
                       }`}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -250,8 +250,8 @@ function OcrContent() {
                   </button>
                 </div>
 
-                <div className="mb-3 p-3 rounded-lg bg-white/5 border border-white/10">
-                  <p className="text-white/50 text-xs">
+                <div className="mb-3 p-3 rounded-lg bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200">
+                  <p className="text-white/50 light:text-slate-500 text-xs">
                     {mode === 'text'
                       ? '文字型模式：直接提取 PDF 内嵌文字，速度快'
                       : '扫描件模式：将 PDF 渲染为图片后用 OCR 识别，支持中英文，速度较慢'}
@@ -264,8 +264,8 @@ function OcrContent() {
                   onDrop={handleDrop}
                   onClick={() => inputRef.current?.click()}
                   className={`relative border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-all duration-300 ${dragOver
-                      ? 'border-indigo-400 bg-indigo-500/10'
-                      : 'border-white/20 hover:border-indigo-400/50 hover:bg-white/5'
+                      ? 'border-indigo-400 bg-indigo-500/10 light:border-indigo-500 light:bg-indigo-50'
+                      : 'border-white/20 light:border-slate-300 hover:border-indigo-400/50 hover:bg-white/5 light:hover:bg-slate-100'
                     }`}
                 >
                   <input
@@ -275,25 +275,25 @@ function OcrContent() {
                     onChange={handleFileChange}
                     className="hidden"
                   />
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 light:bg-slate-100 flex items-center justify-center">
                     <span className="text-3xl">📄</span>
                   </div>
-                  <p className="text-white/70 mb-1">拖拽 PDF 文件到此处，或点击选择</p>
-                  <p className="text-white/40 text-sm">支持 .pdf 格式，最大 20MB</p>
+                  <p className="text-white/70 light:text-slate-600 mb-1">拖拽 PDF 文件到此处，或点击选择</p>
+                  <p className="text-white/40 light:text-slate-400 text-sm">支持 .pdf 格式，最大 20MB</p>
                 </div>
 
                 {file && (
-                  <div className="mt-4 flex items-center justify-between bg-white/5 rounded-lg px-4 py-3 border border-white/10">
+                  <div className="mt-4 flex items-center justify-between bg-white/5 light:bg-slate-100 rounded-lg px-4 py-3 border border-white/10 light:border-slate-200">
                     <div className="flex items-center gap-3 min-w-0">
                       <span className="text-2xl flex-shrink-0">📑</span>
                       <div className="min-w-0">
-                        <p className="text-white/90 font-medium truncate">{file.name}</p>
-                        <p className="text-white/40 text-sm">{(file.size / 1024).toFixed(1)} KB</p>
+                        <p className="text-white/90 light:text-slate-800 font-medium truncate">{file.name}</p>
+                        <p className="text-white/40 light:text-slate-400 text-sm">{(file.size / 1024).toFixed(1)} KB</p>
                       </div>
                     </div>
                     <button
                       onClick={handleReset}
-                      className="text-white/40 hover:text-red-400 transition-colors flex-shrink-0 ml-2"
+                      className="text-white/40 light:text-slate-400 hover:text-red-400 transition-colors flex-shrink-0 ml-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -326,7 +326,7 @@ function OcrContent() {
                     <button
                       onClick={handleReset}
                       disabled={loading}
-                      className="px-5 py-3 bg-white/10 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/10 disabled:opacity-50"
+                      className="px-5 py-3 bg-white/10 light:bg-slate-100 text-white light:text-slate-700 font-medium rounded-xl hover:bg-white/20 light:hover:bg-slate-200 transition-all duration-300 border border-white/10 light:border-slate-300 disabled:opacity-50"
                     >
                       重置
                     </button>
@@ -334,7 +334,7 @@ function OcrContent() {
                 </div>
 
                 {error && (
-                  <div className="mt-4 bg-red-500/10 text-red-400 px-4 py-3 rounded-lg text-center border border-red-500/20">
+                  <div className="mt-4 bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-600 px-4 py-3 rounded-lg text-center border border-red-500/20 light:border-red-200">
                     {error}
                   </div>
                 )}
@@ -343,17 +343,17 @@ function OcrContent() {
 
             {/* PDF 预览 */}
             {previewUrl && (
-              <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden animate-fade-in">
+              <div className="bg-white/5 light:bg-white light:shadow-md light:border-slate-200 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden animate-fade-in">
                 <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
                 <div className="p-6">
-                  <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <h2 className="text-lg font-semibold text-white light:text-slate-800 mb-4 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-indigo-400 light:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                     PDF 预览
                   </h2>
-                  <div className="rounded-lg overflow-hidden border border-white/10 bg-black/30" style={{ height: '500px' }}>
+                  <div className="rounded-lg overflow-hidden border border-white/10 light:border-slate-300 bg-black/30 light:bg-slate-200" style={{ height: '500px' }}>
                     <iframe
                       src={previewUrl}
                       className="w-full h-full"
@@ -366,22 +366,22 @@ function OcrContent() {
           </div>
 
           {/* 右侧：识别结果 */}
-          <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden animate-fade-in">
+          <div className="bg-white/5 light:bg-white light:shadow-md light:border-slate-200 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden animate-fade-in">
             <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h2 className="text-lg font-semibold text-white light:text-slate-800 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-indigo-400 light:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   识别结果
                 </h2>
                 {ocrResult && (
                   <div className="flex items-center gap-3">
-                    <span className="text-sm text-white/50">{ocrResult.pages} 页</span>
+                    <span className="text-sm text-white/50 light:text-slate-500">{ocrResult.pages} 页</span>
                     <button
                       onClick={() => navigator.clipboard.writeText(ocrResult.text)}
-                      className="px-3 py-1.5 bg-indigo-500/20 text-indigo-300 text-sm font-medium rounded-lg hover:bg-indigo-500/30 transition-all duration-300 border border-indigo-500/30 flex items-center gap-1.5"
+                      className="px-3 py-1.5 bg-indigo-500/20 light:bg-indigo-100 text-indigo-300 light:text-indigo-700 text-sm font-medium rounded-lg hover:bg-indigo-500/30 light:hover:bg-indigo-200 transition-all duration-300 border border-indigo-500/30 light:border-indigo-300 flex items-center gap-1.5"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
@@ -396,10 +396,10 @@ function OcrContent() {
               {loading && (
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-white/60 text-sm">{progressLabel}</span>
-                    <span className="text-indigo-400 text-sm font-medium">{progress}%</span>
+                    <span className="text-white/60 light:text-slate-500 text-sm">{progressLabel}</span>
+                    <span className="text-indigo-400 light:text-indigo-600 text-sm font-medium">{progress}%</span>
                   </div>
-                  <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-white/10 light:bg-slate-200 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-300"
                       style={{ width: `${progress}%` }}
@@ -409,26 +409,26 @@ function OcrContent() {
               )}
 
               {ocrResult ? (
-                <div className="rounded-lg border border-white/10 bg-black/30 p-5 max-h-[700px] overflow-y-auto">
-                  <pre className="text-white/80 text-sm leading-relaxed whitespace-pre-wrap break-words font-sans">
+                <div className="rounded-lg border border-white/10 light:border-slate-200 bg-black/30 light:bg-slate-100 p-5 max-h-[700px] overflow-y-auto">
+                  <pre className="text-white/80 light:text-slate-700 text-sm leading-relaxed whitespace-pre-wrap break-words font-sans">
                     {ocrResult.text || '（未识别到文字内容）'}
                   </pre>
                 </div>
               ) : loading ? (
-                <div className="rounded-lg border border-white/10 bg-black/30 p-16 text-center">
+                <div className="rounded-lg border border-white/10 light:border-slate-200 bg-black/30 light:bg-slate-100 p-16 text-center">
                   <div className="w-12 h-12 mx-auto mb-4 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
-                  <p className="text-white/60">{progressLabel || '正在识别 PDF 内容...'}</p>
-                  <p className="text-white/40 text-sm mt-2">
+                  <p className="text-white/60 light:text-slate-500">{progressLabel || '正在识别 PDF 内容...'}</p>
+                  <p className="text-white/40 light:text-slate-400 text-sm mt-2">
                     {mode === 'scan' ? '扫描件识别较慢，请耐心等待' : '这可能需要几秒到几十秒'}
                   </p>
                 </div>
               ) : (
-                <div className="rounded-lg border border-white/10 bg-black/30 p-16 text-center">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center">
+                <div className="rounded-lg border border-white/10 light:border-slate-200 bg-black/30 light:bg-slate-100 p-16 text-center">
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/5 light:bg-slate-200 flex items-center justify-center">
                     <span className="text-4xl">🔤</span>
                   </div>
-                  <p className="text-white/50">上传 PDF 文件并点击识别后</p>
-                  <p className="text-white/50">识别结果将显示在这里</p>
+                  <p className="text-white/50 light:text-slate-500">上传 PDF 文件并点击识别后</p>
+                  <p className="text-white/50 light:text-slate-500">识别结果将显示在这里</p>
                 </div>
               )}
             </div>
