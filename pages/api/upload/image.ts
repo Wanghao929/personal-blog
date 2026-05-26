@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import db from '@/lib/db';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
@@ -11,30 +12,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const pool = require('@/lib/db').default;
-    const [rows] = await pool.execute(
-      'SELECT filename, mimetype, data FROM images WHERE id = ?',
-      [Number(id)]
-    );
+    let image = db.prepare(
+      'SELECT filename, mimetype, data FROM images WHERE id = ?'
+    ).get(Number(id)) as { filename: string; mimetype: string; data: string } | undefined;
     
-    const images = rows as any[];
-    if (images.length === 0) {
+    if (!image) {
       // 如果没有找到对应 ID，返回最新图片作为兜底
-      const [latest] = await pool.execute(
+      image = db.prepare(
         'SELECT filename, mimetype, data FROM images ORDER BY id DESC LIMIT 1'
-      );
-      const latestImages = latest as any[];
-      if (latestImages.length === 0) {
+      ).get() as { filename: string; mimetype: string; data: string } | undefined;
+      if (!image) {
         return res.status(404).json({ error: '图片不存在' });
       }
-      const image = latestImages[0];
-      const buffer = Buffer.from(image.data, 'base64');
-      res.setHeader('Content-Type', image.mimetype);
-      res.setHeader('Cache-Control', 'public, max-age=31536000');
-      return res.send(buffer);
     }
 
-    const image = images[0];
     const buffer = Buffer.from(image.data, 'base64');
     
     res.setHeader('Content-Type', image.mimetype);

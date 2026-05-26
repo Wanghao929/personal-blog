@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import { getBlogsByAuthor, addBlog } from '@/data/store';
 import { ApiResponse, Blog } from '@/types';
+import db from '@/lib/db';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
@@ -43,18 +44,15 @@ export default async function handler(
       if (content.includes(imageMarker)) {
         const idMatches = content.match(new RegExp(`${imageMarker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\d+)`, 'g'));
         if (idMatches) {
-          const pool = require('@/lib/db').default;
           for (const match of idMatches) {
             const imgId = match.split('=')[1];
-            const [imgRows] = await pool.execute(
-              'SELECT mimetype, data FROM images WHERE id = ?',
-              [Number(imgId)]
-            );
-            const images = imgRows as any[];
-            if (images.length > 0) {
+            const image = db.prepare(
+              'SELECT mimetype, data FROM images WHERE id = ?'
+            ).get(Number(imgId)) as { mimetype: string; data: string } | undefined;
+            if (image) {
               processedContent = processedContent.replace(
                 match,
-                `data:${images[0].mimetype};base64,${images[0].data}`
+                `data:${image.mimetype};base64,${image.data}`
               );
             }
           }

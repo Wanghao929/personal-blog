@@ -1,21 +1,19 @@
-import mysql from 'mysql2/promise';
+import Database from 'better-sqlite3';
+import path from 'path';
+import fs from 'fs';
 
-// Railway MySQL 环境变量
-const host = process.env.MYSQLHOST || process.env.DB_HOST || 'localhost';
-const port = Number(process.env.MYSQLPORT || process.env.DB_PORT) || 3306;
-const user = process.env.MYSQLUSER || process.env.DB_USER || 'root';
-const password = process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'root';
-const database = process.env.MYSQLDATABASE || process.env.DB_NAME || 'personal_blog';
+const dbPath = process.env.DB_PATH || '.data/blog.db';
+const resolvedPath = path.resolve(dbPath);
 
-const pool = mysql.createPool({
-  host,
-  port,
-  user,
-  password,
-  database,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
+// 确保数据库目录存在
+const dir = path.dirname(resolvedPath);
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true });
+}
 
-export default pool;
+const db = new Database(resolvedPath);
+
+// 启用 WAL 模式提高并发性能
+db.pragma('journal_mode = WAL');
+
+export default db;

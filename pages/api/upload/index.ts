@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
+import db from '@/lib/db';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -44,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         chunks.push(chunk);
       });
 
-      req.on('end', async () => {
+      req.on('end', () => {
         try {
           const body = Buffer.concat(chunks);
           
@@ -109,12 +110,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           
           const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${mimetype.split('/')[1]}`;
           
-          const pool = require('@/lib/db').default;
-          const [result] = await pool.execute(
-            'INSERT INTO images (filename, mimetype, data) VALUES (?, ?, ?)',
-            [filename, mimetype, base64Data]
-          );
-          const imageId = (result as any).insertId;
+          const result = db.prepare(
+            'INSERT INTO images (filename, mimetype, data) VALUES (?, ?, ?)'
+          ).run(filename, mimetype, base64Data);
+          const imageId = result.lastInsertRowid;
 
           res.status(200).json({ 
             success: true,
